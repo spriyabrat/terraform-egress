@@ -5,14 +5,14 @@
 ## and transit gateway route table, its assocation and its routes
 ########################################################################
 
-resource "aws_route" "private-route-hs-us-east-1-prod-vpc" {
-  route_table_id            = "rtb-073959b2bb4f95547"
+resource "aws_route" "private_route_hs_us_east_1_prod_vpc" {
+  route_table_id            = var.prod_rt_1
   destination_cidr_block    = var.default_route
   transit_gateway_id = var.tgw_id
 }
 
-resource "aws_route" "private-route-hs-us-east-1-prod-vpc1" {
-  route_table_id            = "rtb-035c6e50940a85d85"
+resource "aws_route" "private_route_hs_us_east_1_prod_vpc1" {
+  route_table_id            = var.prod_rt_2
   destination_cidr_block    = var.default_route
   transit_gateway_id = var.tgw_id
 }

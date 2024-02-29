@@ -30,7 +30,7 @@ resource "aws_networkfirewall_firewall_policy" "firewall_policy" {
 }
 
 resource "aws_networkfirewall_rule_group" "allow_domains" {
-  capacity = 10
+  capacity = 100
   name     = "allow-domains"
   type     = "STATEFUL"
 

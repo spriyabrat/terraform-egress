@@ -15,3 +15,7 @@ default = "0.0.0.0/0"
 }
 
 variable "ngw_vpc_attachment_id" {}
+
+variable "route_table_id" {
+default = "rtb-0c60804bd32ed1b2a"
+}

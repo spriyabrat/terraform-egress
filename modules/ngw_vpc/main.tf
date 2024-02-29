@@ -80,12 +80,12 @@ resource "aws_route_table" "firewall_rt" {
   }
 }
 
-resource "aws_eip" "egress-eip" {
+resource "aws_eip" "egress_eip" {
   vpc=true
 }
 
-resource "aws_nat_gateway" "egress-nat" {
-  allocation_id = aws_eip.egress-eip.id
+resource "aws_nat_gateway" "egress_nat" {
+  allocation_id = aws_eip.egress_eip.id
   subnet_id     = aws_subnet.public_subnet.id
 
   tags = {
@@ -108,7 +108,7 @@ resource "aws_route_table_association" "firewall_association" {
   route_table_id = aws_route_table.firewall_rt.id
 }
 
-resource "aws_route" "public-subnet-route" {
+resource "aws_route" "public_subnet_route" {
   route_table_id            = aws_route_table.public_rt.id
   destination_cidr_block    = var.default_route
   gateway_id = aws_internet_gateway.my_igw.id
@@ -118,26 +118,26 @@ data "aws_vpc_endpoint" "firewall" {
   vpc_id       = aws_vpc.my_vpc.id
 }
 
-resource "aws_route" "public-rt-route-1" {
+resource "aws_route" "public_rt_route_1" {
   route_table_id            = aws_route_table.public_rt.id
   destination_cidr_block    = var.pub_data
   vpc_endpoint_id = data.aws_vpc_endpoint.firewall.id
   depends_on = [data.aws_vpc_endpoint.firewall]
 }
 
-resource "aws_route" "public-rt-route-2" {
+resource "aws_route" "public_rt_route_2" {
   route_table_id            = aws_route_table.public_rt.id
   destination_cidr_block    = var.pub_prod
   vpc_endpoint_id = data.aws_vpc_endpoint.firewall.id
 }
 
-resource "aws_route" "public-rt-route-3" {
+resource "aws_route" "public_rt_route_3" {
   route_table_id            = aws_route_table.public_rt.id
   destination_cidr_block    = var.pub_hs_us_east_1
   vpc_endpoint_id = data.aws_vpc_endpoint.firewall.id
 }
 
-resource "aws_route" "private-rt-route" {
+resource "aws_route" "private_rt_route" {
   route_table_id            = aws_route_table.private_rt.id
   destination_cidr_block    = var.default_route
   #nat_gateway_id = aws_nat_gateway.egress-nat.id
@@ -145,25 +145,25 @@ resource "aws_route" "private-rt-route" {
 }
 
 
-resource "aws_route" "firewall-rt-route-1" {
+resource "aws_route" "firewall_rt_route_1" {
   route_table_id            = aws_route_table.firewall_rt.id
   destination_cidr_block    = var.hs_us_east_1_cidr
   transit_gateway_id = var.tgw_id
 }
 
-resource "aws_route" "firewall-rt-route-2" {
+resource "aws_route" "firewall_rt_route_2" {
   route_table_id            = aws_route_table.firewall_rt.id
   destination_cidr_block    = var.hs_us_east_1_data_cidr
   transit_gateway_id = var.tgw_id
 }
 
-resource "aws_route" "firewall-rt-route-3" {
+resource "aws_route" "firewall_rt_route_3" {
   route_table_id            = aws_route_table.firewall_rt.id
   destination_cidr_block    = var.hs_us_east_1_prod_cidr
   transit_gateway_id = var.tgw_id
 }
 
-resource "aws_route" "firewall-rt-route-4" {
+resource "aws_route" "firewall_rt_route_4" {
   route_table_id            = aws_route_table.firewall_rt.id
   destination_cidr_block    = var.default_route
   nat_gateway_id = aws_nat_gateway.egress-nat.id
@@ -171,7 +171,7 @@ resource "aws_route" "firewall-rt-route-4" {
 
 ###############################
 
-resource "aws_ec2_transit_gateway_vpc_attachment" "ngw-vpc" {
+resource "aws_ec2_transit_gateway_vpc_attachment" "ngw_vpc" {
   subnet_ids        = [aws_subnet.private_subnet.id]
   transit_gateway_id = var.tgw_id
   vpc_id            = aws_vpc.my_vpc.id
@@ -189,30 +189,30 @@ resource "aws_ec2_transit_gateway_route_table" "ngw_side_rt" {
 }
 
 
-resource "aws_ec2_transit_gateway_route_table_association" "ngw-side-rt" {
-  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.ngw-vpc.id
+resource "aws_ec2_transit_gateway_route_table_association" "ngw_side_rt" {
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.ngw_vpc.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.ngw_side_rt.id
 }
 
-resource "aws_ec2_transit_gateway_route" "ngw-side-route" {
+resource "aws_ec2_transit_gateway_route" "ngw_side_route" {
   destination_cidr_block         = var.data_route
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.ngw_side_rt.id
   transit_gateway_attachment_id = var.hs_us_east_1_data_id
 }
 
-resource "aws_ec2_transit_gateway_route" "ngw-side-route-1" {
+resource "aws_ec2_transit_gateway_route" "ngw_side_route_1" {
   destination_cidr_block         = var.hs_us_east_1_route
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.ngw_side_rt.id
   transit_gateway_attachment_id = var.hs_us_east_1_id
 }
 
-resource "aws_ec2_transit_gateway_route" "ngw-side-route-2" {
+resource "aws_ec2_transit_gateway_route" "ngw_side_route_2" {
   destination_cidr_block         = var.hs_us_east_1_prod_route
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.ngw_side_rt.id
   transit_gateway_attachment_id = var.hs_us_east_1_prod_id
 }
 
-resource "aws_ec2_transit_gateway_route" "ngw-side-route-3" {
+resource "aws_ec2_transit_gateway_route" "ngw_side_route_3" {
   destination_cidr_block         = var.hs_us_east_1_prod_route_2
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.ngw_side_rt.id
   transit_gateway_attachment_id = var.hs_us_east_1_prod_id

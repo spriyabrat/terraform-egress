@@ -23,4 +23,8 @@ variable "prod_vpc_attachment_id" {}
 
 variable "hs_us_east_1_route" {
 default = "172.30.0.0/16"
-} 
+}
+
+variable "route_table_id" {
+default = "rtb-04aa153b2d09019f4"
+}

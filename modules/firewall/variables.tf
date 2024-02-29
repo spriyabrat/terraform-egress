@@ -9,7 +9,7 @@ variable "ip_set_definition" {
 
 variable "targets_file" {
   type    = string
-  default = "/root/FINAL/modules/firewall/domain_list.txt" # Adjust the default value based on your file path
+  default = "./modules/firewall/domain_list.txt" # Adjust the default value based on your file path
 }
 
 variable "generated_rules_type" {

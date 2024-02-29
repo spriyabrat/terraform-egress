@@ -24,3 +24,11 @@ default = "172.10.0.0/16"
 #variable "hs_us_east_1_route" {
 #default = "172.30.0.0/16"
 #}
+
+variable "prod_rt_1" {
+default = "rtb-073959b2bb4f95547"
+}
+
+variable "prod_rt_2" {
+default = "rtb-035c6e50940a85d85"
+}

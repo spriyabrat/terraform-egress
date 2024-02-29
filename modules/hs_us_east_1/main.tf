@@ -5,8 +5,8 @@
 ## and transit gateway route table, its assocation and its routes
 ########################################################################
 
-resource "aws_route" "private-route-hs-us-east-1-vpc" {
-  route_table_id            = "rtb-0c60804bd32ed1b2a"
+resource "aws_route" "private_route_hs_us_east_1_vpc" {
+  route_table_id            = var.route_table_id
   destination_cidr_block    = var.default_route
   transit_gateway_id = var.tgw_id
 }
